@@ -256,10 +256,14 @@ class _AddPropertyScreenState extends ConsumerState<AddPropertyScreen> {
   }
 
   Future<void> _pickImage() async {
-    final file = await FilePicker.pickFile(type: FileType.image);
-    if (!mounted || file == null) return;
-    final bytes = await file.readAsBytes();
-    if (bytes.isEmpty) {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      withData: true,
+    );
+    if (!mounted || result == null || result.files.isEmpty) return;
+    final file = result.files.single;
+    final bytes = file.bytes;
+    if (bytes == null || bytes.isEmpty) {
       _showMessage('The selected image could not be read.');
       return;
     }
