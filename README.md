@@ -102,4 +102,4 @@ Run static analysis with:
 flutter analyze
 ```
 
-Run tests with `flutter test` when test files are present in the project.
+Run tests with `flutter test` when test files are present in the pr
