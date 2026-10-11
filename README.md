@@ -18,12 +18,16 @@ The project uses Flutter and Dart. If Flutter was installed in `$HOME/flutter`, 
 export PATH="$HOME/flutter/bin:$PATH"
 flutter doctor
 flutter pub get
+dart run sqflite_common_ffi_web:setup
+curl -fL https://github.com/simolus3/sqlite3.dart/releases/download/sqlite3-3.5.2/sqlite3.wasm -o web/sqlite3.wasm
 ```
+
+The setup command creates the SQLite worker, but currently downloads a WASM binary that does not match the locked `sqlite3` version. The `curl` command replaces it with the matching 3.5.2 binary. If `sqlite3` changes in `pubspec.lock`, update the release version in this URL too.
 
 Start the app using Flutter's web-server target:
 
 ```sh
-flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8080
+flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8081
 ```
 
 In VS Code, open the **Ports** tab, forward port `8080` if it is not already forwarded, and open the forwarded URL. This web-server workflow does not require Chrome to be installed inside the Codespace. To use `flutter run -d chrome`, install Chrome in the environment and ensure Flutter can find its executable.
@@ -53,6 +57,10 @@ There is also an owner administrator demo account: `jzacks543@gmail.com` / `2233
 ### Create an account
 
 Select **Create account**, choose Student or Landlord, complete the form, and submit. Registration returns to the login screen; sign in with the new account afterward. Admin is not offered as a normal registration role. The owner administrator account is restricted to the seeded owner credentials above.
+
+### default admin accounts
+admin@mau.edu.ng / admin123
+jzacks543@gmail.com / 223344
 
 ## Role Workflows
 

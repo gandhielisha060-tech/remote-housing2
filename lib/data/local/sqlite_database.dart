@@ -12,13 +12,12 @@ class SqliteDatabase {
   }
 
   Future<Database?> _open() async {
-    try {
-      final database = await databaseFactoryFfiWebNoWebWorker.openDatabase(
-        'mau_housing.sqlite',
-        options: OpenDatabaseOptions(
-          version: 2,
-          onCreate: (db, version) async {
-            await db.execute('''
+    final database = await databaseFactoryFfiWebNoWebWorker.openDatabase(
+      'mau_housing.sqlite',
+      options: OpenDatabaseOptions(
+        version: 2,
+        onCreate: (db, version) async {
+          await db.execute('''
               CREATE TABLE users (
                 id TEXT PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -34,23 +33,20 @@ class SqliteDatabase {
                 suspended INTEGER NOT NULL DEFAULT 0
               )
             ''');
-          },
-          onUpgrade: (db, oldVersion, newVersion) async {
-            if (oldVersion < 2) {
-              await db.execute('ALTER TABLE users ADD COLUMN student_id TEXT');
-              await db.execute('ALTER TABLE users ADD COLUMN institution TEXT');
-              await db.execute('ALTER TABLE users ADD COLUMN department TEXT');
-              await db.execute(
-                'ALTER TABLE users ADD COLUMN property_address TEXT',
-              );
-            }
-          },
-        ),
-      );
-      _database = database;
-      return database;
-    } catch (_) {
-      return null;
-    }
+        },
+        onUpgrade: (db, oldVersion, newVersion) async {
+          if (oldVersion < 2) {
+            await db.execute('ALTER TABLE users ADD COLUMN student_id TEXT');
+            await db.execute('ALTER TABLE users ADD COLUMN institution TEXT');
+            await db.execute('ALTER TABLE users ADD COLUMN department TEXT');
+            await db.execute(
+              'ALTER TABLE users ADD COLUMN property_address TEXT',
+            );
+          }
+        },
+      ),
+    );
+    _database = database;
+    return database;
   }
 }
